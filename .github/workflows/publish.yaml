@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: echo ${{ github.ref }}
       - uses: actions/setup-node@v1
         with:
           node-version: 10
       - name: Configure NPM token
         run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
       - name: Publish package
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: npm publish
